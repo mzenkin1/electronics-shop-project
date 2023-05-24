@@ -21,3 +21,30 @@ def test_apply_discount(item):
     assert item.price == 10000
 
 
+@pytest.fixture
+def item():
+    Item.all = []
+    item = Item(name="Смартфон", price=10000, quantity=20)
+    return item
+
+
+def test_all_items_list(item):
+    assert len(Item.all) == 1
+    assert Item.all[0] == item
+
+
+def test_len_name1(item):
+    with pytest.raises(Exception) as e:
+        item.name = "Смартфон"
+        assert str(e.value) == "Длина наименования товара превышает 10 символов"
+
+
+def test_len_name2(item):
+    item.name = "Смартфон"
+    assert item.name == "Смартфон"
+
+
+def test_instantiate_from_csv(item):
+    Item.instantiate_from_csv()
+    assert len(Item.all) == 5
+    assert isinstance(Item.all[0], Item)
