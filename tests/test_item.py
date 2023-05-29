@@ -35,7 +35,7 @@ def test_all_items_list(item):
 
 def test_len_name1(item):
     with pytest.raises(Exception) as e:
-        item.name = "Смартфон"
+        item.name = "Клавиатура1"
         assert str(e.value) == "Длина наименования товара превышает 10 символов"
 
 
@@ -48,3 +48,6 @@ def test_instantiate_from_csv(item):
     Item.instantiate_from_csv()
     assert len(Item.all) == 5
     assert isinstance(Item.all[0], Item)
+
+
+

@@ -1,4 +1,4 @@
-import self as self
+import math
 import csv
 import os
 
@@ -18,7 +18,8 @@ class Item:
         :param price: Цена за единицу товара.
         :param quantity: Количество товара в магазине.
         """
-        self.name = name
+
+        self.__name = name
         self.price = price
         self.quantity = quantity
         self.all.append(self)
@@ -41,22 +42,28 @@ class Item:
     def name(self):
         return self.__name
 
-    def name(self, add_name: str):
-        if len(add_name) <= 10:
-            self.__name = add_name
-        else:
-            raise Exception('Длина наименования товара превышает 10 символов')
+    @name.setter
+    def name(self, newname):
+        try:
+            if len(newname) <= 10:
+                self.__name = newname
+        except Exception:
+            raise Exception("Длина наименования товара превышает 10 символов")
 
     @classmethod
     def instantiate_from_csv(cls):
-        Item.all = []
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        data = os.path.join(current_dir, 'items.csv')
-        with open(data, encoding="cp1251") as f:
-            reader = csv.DictReader(f)
+        cls.all.clear()
+        try:
+            csv_file = os.path.join('../src', 'items.csv')
+            with open(csv_file, newline='') as csvfile:
 
-            for row in reader:
-                cls(row["name"], row["price"], row["quantity"])
+                reader = csv.DictReader(csvfile)
+
+                for row in reader:
+                    cls(row['name'], row['price'], row['quantity'])
+        except FileNotFoundError:
+              print("файл не найден")
+
     @staticmethod
     def string_to_number(num):
         number = int(math.floor(float(num.strip())))
