@@ -49,5 +49,15 @@ def test_instantiate_from_csv(item):
     assert len(Item.all) == 5
     assert isinstance(Item.all[0], Item)
 
+    # Создаем экземпляр класса для проверки магических методов
+    item = Item("Смартфон", 10000, 20)
+
+    # Проверяем магический метод __repr__
+    assert repr(item) == "Item('Смартфон', 10000, 20)"
+
+    # Проверяем магический метод __str__
+    assert str(item) == 'Смартфон'
+
+
 
 
